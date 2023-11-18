@@ -51,5 +51,5 @@ update==0.0.1
 urllib3==1.26.12
 uvicorn==0.24.0.post1
 validate-email-address==1
-Werkzeug==2.2.2
+Werkzeug==2.3.8
 zipp==3.10.0
