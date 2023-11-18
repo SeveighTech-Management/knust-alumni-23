@@ -48,7 +48,7 @@ trycourier==4.4.0
 twilio==7.15.3
 typing_extensions==4.8.0
 update==0.0.1
-urllib3==1.26.12
+urllib3==1.26.18
 uvicorn==0.24.0.post1
 validate-email-address==1
 Werkzeug==2.3.8
