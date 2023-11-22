@@ -39,6 +39,14 @@ def comment_on_a_picture(comment: AddComment, api_access_code: str = Query(None,
         raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST, detail="Could not add Comment")
     return resp
 
+@router.get("/get-hero-section-graduate-pictures", status_code=status.HTTP_202_ACCEPTED, response_model=List[ReturnGraduate], summary="This route is used to get five random pictures from all graduates for a hero section.", description="It only returns 5 random results each time it is hit.")
+def get_graduate_pictures_wfor_hero_section(api_access_code: str = Query(None, description="Special Key needed in order to have access to use the API"), db: Session = Depends(get_db)):
+    resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
+    if resp == "Fail":
+        raise HTTPException(status_code= status.HTTP_401_UNAUTHORIZED, detail="You are not authorized")
+    pictures = UserCrud.get_five_random_graduates(db)
+    return pictures
+
 @router.get("/get-all-graduate-pictures", status_code=status.HTTP_202_ACCEPTED, response_model=List[GraduatesWithComments], summary="This route is used to get all the pictures of a graduate along with three comments each.", description="It is not paginated and is meant for something like an infinite scroll feature.")
 def get_all_graduate_pictures_with_comments_preview(api_access_code: str = Query(None, description="Special Key needed in order to have access to use the API"), db: Session = Depends(get_db)):
     resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)

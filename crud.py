@@ -95,7 +95,19 @@ class User():
             return_graduates.append(graduate_dict_final)
             
         return return_graduates
-        
+    
+    def get_five_random_graduates(db: Session):
+        return_graduates = []
+        graduates = db.query(Graduates).order_by(func.random()).limit(5).all()
+
+        for graduate in graduates:
+            graduate_dict = graduate.__dict__
+            graduate_id = graduate_dict["id"]
+            graduate_dict_final = User.get_graduate_pictures(db=db, graduate_id=graduate_id)
+            return_graduates.append(graduate_dict_final)
+            
+        return return_graduates
+    
     def get_graduates_with_comments_paginated(api_access_code, db: Session, items_per_page: 7, page: 1):
         total_items = db.query(Graduates).count()
         return_graduates = []
