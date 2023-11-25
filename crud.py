@@ -83,18 +83,18 @@ class User():
         if secret_key != SECRET_KEY_ACCESS:
             return "Fail"
         
-    def get_all_graduates_with_comments(db: Session):
-        return_graduates = []
-        graduates = db.query(Graduates).order_by(func.random()).all()
+    # def get_all_graduates_with_comments(db: Session):
+    #     return_graduates = []
+    #     graduates = db.query(Graduates).order_by(func.random()).all()
 
-        for graduate in graduates:
-            graduate_dict = graduate.__dict__
-            graduate_id = graduate_dict["id"]
-            graduate_dict_final = User.get_graduate_pictures(db=db, graduate_id=graduate_id)
-            graduate_dict_final["comments"] = User.get_picture_comments_limited(db, graduate_id)
-            return_graduates.append(graduate_dict_final)
+    #     for graduate in graduates:
+    #         graduate_dict = graduate.__dict__
+    #         graduate_id = graduate_dict["id"]
+    #         graduate_dict_final = User.get_graduate_pictures(db=db, graduate_id=graduate_id)
+    #         graduate_dict_final["comments"] = User.get_picture_comments_limited(db, graduate_id)
+    #         return_graduates.append(graduate_dict_final)
             
-        return return_graduates
+    #     return return_graduates
     
     def get_five_random_graduates(db: Session):
         return_graduates = []

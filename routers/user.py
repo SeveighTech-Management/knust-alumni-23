@@ -47,13 +47,13 @@ def get_graduate_pictures_wfor_hero_section(api_access_code: str = Query(None, d
     pictures = UserCrud.get_five_random_graduates(db)
     return pictures
 
-@router.get("/get-all-graduate-pictures", status_code=status.HTTP_202_ACCEPTED, response_model=List[GraduatesWithComments], summary="This route is used to get all the pictures of a graduate along with three comments each.", description="It is not paginated and is meant for something like an infinite scroll feature.")
-def get_all_graduate_pictures_with_comments_preview(api_access_code: str = Query(None, description="Special Key needed in order to have access to use the API"), db: Session = Depends(get_db)):
-    resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
-    if resp == "Fail":
-        raise HTTPException(status_code= status.HTTP_401_UNAUTHORIZED, detail="You are not authorized")
-    pictures = UserCrud.get_all_graduates_with_comments(db)
-    return pictures
+# @router.get("/get-all-graduate-pictures", status_code=status.HTTP_202_ACCEPTED, response_model=List[GraduatesWithComments], summary="This route is used to get all the pictures of a graduate along with three comments each.", description="It is not paginated and is meant for something like an infinite scroll feature.")
+# def get_all_graduate_pictures_with_comments_preview(api_access_code: str = Query(None, description="Special Key needed in order to have access to use the API"), db: Session = Depends(get_db)):
+#     resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
+#     if resp == "Fail":
+#         raise HTTPException(status_code= status.HTTP_401_UNAUTHORIZED, detail="You are not authorized")
+#     pictures = UserCrud.get_all_graduates_with_comments(db)
+#     return pictures
 
 @router.get("/get-all-graduate-pictures-paginated", status_code=status.HTTP_202_ACCEPTED, response_model=PaginatedGraduatesWithComments, summary="This route is used to get the pictures of graduates along with three comments each.", description="It is paginated, meaning it returns the data by pages, with 10 graduates per page.")
 def get_all_graduate_pictures_with_comments_preview_paginated_view(page:Optional[int] = None, api_access_code: str = Query(None, description="Special Key needed in order to have access to use the API"), db: Session = Depends(get_db)):
