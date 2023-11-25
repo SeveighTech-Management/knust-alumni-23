@@ -5,7 +5,7 @@ from aws import get_files, send_files
 from schema import AddComment, AddGraduate
 from models import Comments, Graduates
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from dotenv import load_dotenv
 
 
@@ -117,7 +117,7 @@ class User():
         
         offset = (page-1)*items_per_page
 
-        graduates = db.query(Graduates).order_by(func.random()).offset(offset).limit(items_per_page).all()
+        graduates = db.query(Graduates).order_by(desc(Graduates.created_at)).offset(offset).limit(items_per_page).all()
 
         for graduate in graduates:
             graduate_dict = graduate.__dict__
