@@ -15,14 +15,14 @@ class Graduates(BaseModel):
     graduate_name: str
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         
 class Comment(BaseModel):
     name_of_commenter: str
     comment: str
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ReturnComment(BaseModel):
     name_of_commenter: str
@@ -30,7 +30,7 @@ class ReturnComment(BaseModel):
     graduate_id: UUID
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AddComment(BaseModel):
     name_of_commenter: str
@@ -38,7 +38,7 @@ class AddComment(BaseModel):
     graduate_id: UUID
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         
 class GraduatesWithComments(BaseModel):
     id: UUID
