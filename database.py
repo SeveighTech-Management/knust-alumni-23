@@ -6,16 +6,17 @@ import os
 
 load_dotenv()
 
-DATABASE_URI = os.environ.get("DATABASE_URL") 
+DATABASE_URI = os.environ.get("DATABASE_URL")
 engine = create_engine(DATABASE_URI)
 sessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
-# Dependency 
+
+# Dependency
 def get_db():
     database = sessionLocal()
     try:
         yield database
     finally:
-        database.close()   
+        database.close()

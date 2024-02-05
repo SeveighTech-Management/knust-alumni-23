@@ -18,7 +18,7 @@ sys.path.append(BASE_DIR)
 # access to the values within the .ini file in use.
 config = context.config
 
-'''
+"""
 
 
 DATABASE_USER = os.getenv("POSTGRES_DATABASE_USER")
@@ -28,7 +28,7 @@ DATABASE_PASSWORD = os.getenv("POSTGRES_DATABASE_PASSWORD")
 DATABASE_URI_BEGINNING = os.getenv("POSTGRES_DATABASE_URL")
 
 DATABASE_URI = f'{DATABASE_URI_BEGINNING}://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_SERVER}/{DATABASE_NAME}'
-'''
+"""
 
 DATABASE_URI = os.environ.get("DATABASE_URL")
 config.set_main_option("sqlalchemy.url", DATABASE_URI)
@@ -87,9 +87,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
