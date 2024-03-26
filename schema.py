@@ -10,16 +10,9 @@ class AddGraduate(BaseModel):
 class ReturnGraduate(BaseModel):
     graduate_name: str
     graduate_year: str
+    graduate_description: Optional[str] = None
     picture_name: str
     picture_link: str
-
-
-class Graduates(BaseModel):
-    picture_name: str
-    graduate_name: str
-
-    class Config:
-        from_attributes = True
 
 
 class Comment(BaseModel):
@@ -51,8 +44,9 @@ class AddComment(BaseModel):
 class GraduatesWithComments(BaseModel):
     id: UUID
     graduate_name: str
+    graduate_year: str
+    graduate_description: Optional[str] = None
     picture_name: str
-    picture_year: str
     picture_link: str
     comments: Optional[List[Comment]] = None
 

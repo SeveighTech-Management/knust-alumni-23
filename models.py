@@ -13,6 +13,7 @@ class Graduates(Base):
         "created_at", DateTime(timezone=True), server_default=func.now()
     )
     graduate_name = Column("graduate_name", String(2004))
+    graduate_description = Column("graduate_description", String(2004))
     graduate_year = Column("graduate_year", String(2004))
     picture_name = Column("picture_name", String(2004))
     comment = relationship("Comments", back_populates="graduate_info")

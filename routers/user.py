@@ -34,6 +34,7 @@ async def upload_graduation_picture(
     graduate_name: str,
     graduate_year: str,
     graduate_picture: UploadFile,
+    graduate_description: Optional[str] = None,
     api_access_code: str = Query(
         None, description="Special Key needed in order to have access to use the API"
     ),
@@ -48,6 +49,7 @@ async def upload_graduation_picture(
     graduate["graduate_name"] = graduate_name
     graduate["picture"] = graduate_picture
     graduate["graduate_year"] = graduate_year
+    graduate["graduate_description"] = graduate_description
     resp = await UserCrud.add_graduate(db, graduate)
     if resp == "Fail-D":
         raise HTTPException(
