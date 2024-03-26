@@ -66,6 +66,8 @@ class User:
         details = {
             "id": picture_dict["id"],
             "graduate_name": picture_dict["graduate_name"],
+            "graduate_year": picture_dict["graduate_year"],
+            "graduate_description": picture_dict["graduate_description"],
             "picture_name": picture_dict["picture_name"],
             "picture_link": "",
         }

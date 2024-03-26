@@ -8,6 +8,7 @@ class AddGraduate(BaseModel):
 
 
 class ReturnGraduate(BaseModel):
+    id: UUID
     graduate_name: str
     graduate_year: str
     graduate_description: Optional[str] = None
