@@ -32,6 +32,7 @@ router = APIRouter(tags=["User"], prefix="/user")
 )
 async def upload_graduation_picture(
     graduate_name: str,
+    graduate_year: str,
     graduate_picture: UploadFile,
     api_access_code: str = Query(
         None, description="Special Key needed in order to have access to use the API"
@@ -46,6 +47,7 @@ async def upload_graduation_picture(
         )
     graduate["graduate_name"] = graduate_name
     graduate["picture"] = graduate_picture
+    graduate["graduate_year"] = graduate_year
     resp = await UserCrud.add_graduate(db, graduate)
     if resp == "Fail-D":
         raise HTTPException(
@@ -94,7 +96,7 @@ def comment_on_a_picture(
     summary="This route is used to get five random pictures from all graduates for a hero section.",
     description="It only returns 5 random results each time it is hit.",
 )
-def get_graduate_pictures_wfor_hero_section(
+def get_graduate_pictures_for_hero_section(
     api_access_code: str = Query(
         None, description="Special Key needed in order to have access to use the API"
     ),

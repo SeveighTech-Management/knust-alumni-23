@@ -9,6 +9,7 @@ class AddGraduate(BaseModel):
 
 class ReturnGraduate(BaseModel):
     graduate_name: str
+    graduate_year: str
     picture_name: str
     picture_link: str
 
@@ -51,6 +52,7 @@ class GraduatesWithComments(BaseModel):
     id: UUID
     graduate_name: str
     picture_name: str
+    picture_year: str
     picture_link: str
     comments: Optional[List[Comment]] = None
 
