@@ -76,12 +76,20 @@ class User:
         return details
 
     def get_all_picture_comments(db: Session, graduate_id: UUID):
+        graduate = db.query(Graduates).filter(Graduates.id == graduate_id).first()
+
+        graduate_dict = graduate.__dict__
+        graduate_id = graduate_dict["id"]
+        graduate_dict_final = User.get_graduate_pictures(
+            db=db, graduate_id=graduate_id
+        )
         return_comments = []
         comments = db.query(Comments).filter(Comments.graduate_id == graduate_id).all()
         for comment in comments:
             comment_dict = comment.__dict__
             return_comments.append(comment_dict)
-        return return_comments
+        graduate_dict_final["comments"] = return_comments
+        return graduate_dict_final
 
     def get_picture_comments_limited(db: Session, graduate_id: UUID):
         return_comments = []

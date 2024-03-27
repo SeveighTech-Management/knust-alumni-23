@@ -149,7 +149,7 @@ def get_all_graduate_pictures_with_comments_preview_paginated_view(
 @router.get(
     "/get-comments",
     status_code=status.HTTP_200_OK,
-    response_model=Optional[List[Comment]],
+    response_model=GraduatesWithComments,
     summary="This route is used to get all the comments under a specific picture of a graduate.",
     description="It returns a List of Json data.",
 )
