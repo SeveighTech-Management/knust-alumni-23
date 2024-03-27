@@ -62,7 +62,6 @@ class User:
         if picture is None:
             return "E"
         picture_dict = picture.__dict__
-        folder = "knustalumni23/"
         details = {
             "id": picture_dict["id"],
             "graduate_name": picture_dict["graduate_name"],
@@ -73,7 +72,7 @@ class User:
         }
         if details["picture_name"] is not None:
             file_name = details["picture_name"]
-            details["picture_link"] = get_files(f"{folder}{file_name}")
+            details["picture_link"] = get_files(f"{file_name}")
         return details
 
     def get_all_picture_comments(db: Session, graduate_id: UUID):

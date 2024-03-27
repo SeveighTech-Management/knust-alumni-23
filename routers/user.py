@@ -17,7 +17,6 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=".env")
 
-DOMAIN_NAME = os.environ.get("DOMAIN_NAME")
 SECRET_KEY_ACCESS = os.environ.get("SECRET_KEY_ACCESS")
 
 router = APIRouter(tags=["User"], prefix="/user")
