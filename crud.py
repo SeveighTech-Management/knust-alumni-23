@@ -21,7 +21,7 @@ class User:
             image_binary = await graduate["picture"].read()
             send_files(
                 image_binary,
-                "knustalumni23/" + image_filename,
+                image_filename,
                 graduate["picture"].content_type,
             )
         except Exception as e:
@@ -31,6 +31,8 @@ class User:
         try:
             pic = {
                 "graduate_name": graduate["graduate_name"],
+                "graduate_year": graduate["graduate_year"],
+                "graduate_description": graduate["graduate_description"],
                 "picture_name": image_filename,
             }
             pic_to_send = Graduates(**pic)
@@ -43,6 +45,8 @@ class User:
 
         graduate_id = pic_to_send.id
         picture_details = User.get_graduate_pictures(db, graduate_id)
+        picture_details["graduate_year"] = graduate["graduate_year"]
+        picture_details["graduate_description"] = graduate["graduate_description"]
         return picture_details
 
     def add_comments(db: Session, comment: AddComment):
