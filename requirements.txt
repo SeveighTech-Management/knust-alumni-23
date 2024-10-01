@@ -3,7 +3,7 @@ annotated-types==0.7.0
 anyio==4.6.0
 asgiref==3.8.1
 blinker==1.8.2
-boto3==1.35.29
+boto3==1.35.30
 botocore==1.35.30
 build==1.2.2
 certifi==2024.8.30
@@ -56,7 +56,7 @@ termcolor==2.4.0
 trycourier==6.2.0
 typing_extensions==4.12.2
 update==0.0.1
-urllib3==2.2.3
+urllib3==2.2.2
 uvicorn==0.31.0
 validate-email-address==1
 Werkzeug==3.0.4
