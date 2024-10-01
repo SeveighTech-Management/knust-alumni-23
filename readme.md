@@ -1,4 +1,4 @@
-# KNUSTAlumni23 README
+# KNUSTAlumni README
 
 ## Environment Variables
 

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 from uvicorn import run
 from dotenv import load_dotenv
 from database import Base, engine
@@ -14,7 +15,9 @@ DOMAIN_NAME = os.environ.get("DOMAIN_NAME")
 SECRET_KEY = os.environ.get("SECRET_KEY")
 app = FastAPI(
     title="KnustAlumni23",
-    description="Mini Project for KNUST Alumni to share their pictures and receive their congratulatory messages, instead of having to go through counless WhatsApp status updates and potentially missing some kind and inspiring words from friends and family.",
+    description="Mini Project for KNUST Alumni to share their pictures and receive their congratulatory messages, "
+    "instead of having to go through counless WhatsApp status updates and potentially missing some kind "
+    "and inspiring words from friends and family.",
 )
 app.add_middleware(CORSMiddleware)
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
@@ -29,6 +32,12 @@ app.add_middleware(
 app.secret_key = SECRET_KEY
 
 app.include_router(user.router)
+
+
+@app.get("/")
+def index():
+    return RedirectResponse("/docs")
+
 
 if __name__ == "__main__":
     run(app)
