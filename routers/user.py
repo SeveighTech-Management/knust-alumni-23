@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 from crud import User as UserCrud
 from schema import (
     AddComment,
-    Comment,
     GraduatesWithComments,
     PaginatedGraduatesWithComments,
     ReturnComment,
@@ -17,7 +16,7 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=".env")
 
-SECRET_KEY_ACCESS = os.environ.get("SECRET_KEY_ACCESS")
+secret_key_access = os.environ.get("SECRET_KEY_ACCESS")
 
 router = APIRouter(tags=["User"], prefix="/user")
 
@@ -40,7 +39,7 @@ async def upload_graduation_picture(
     db: Session = Depends(get_db),
 ):
     graduate = {}
-    resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
+    resp = UserCrud.check_secret_key(api_access_code, secret_key_access)
     if resp == "Fail":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized"
@@ -77,7 +76,7 @@ def comment_on_a_picture(
     ),
     db: Session = Depends(get_db),
 ):
-    resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
+    resp = UserCrud.check_secret_key(api_access_code, secret_key_access)
     if resp == "Fail":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized"
@@ -103,22 +102,13 @@ def get_graduate_pictures_for_hero_section(
     ),
     db: Session = Depends(get_db),
 ):
-    resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
+    resp = UserCrud.check_secret_key(api_access_code, secret_key_access)
     if resp == "Fail":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized"
         )
     pictures = UserCrud.get_five_random_graduates(db)
     return pictures
-
-
-# @router.get("/get-all-graduate-pictures", status_code=status.HTTP_202_ACCEPTED, response_model=List[GraduatesWithComments], summary="This route is used to get all the pictures of a graduate along with three comments each.", description="It is not paginated and is meant for something like an infinite scroll feature.")
-# def get_all_graduate_pictures_with_comments_preview(api_access_code: str = Query(None, description="Special Key needed in order to have access to use the API"), db: Session = Depends(get_db)):
-#     resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
-#     if resp == "Fail":
-#         raise HTTPException(status_code= status.HTTP_401_UNAUTHORIZED, detail="You are not authorized")
-#     pictures = UserCrud.get_all_graduates_with_comments(db)
-#     return pictures
 
 
 @router.get(
@@ -129,13 +119,13 @@ def get_graduate_pictures_for_hero_section(
     description="It is paginated, meaning it returns the data by pages, with 10 graduates per page.",
 )
 def get_all_graduate_pictures_with_comments_preview_paginated_view(
-    page: Optional[int] = None,
+    page: Optional[int] = 1,
     api_access_code: str = Query(
         None, description="Special Key needed in order to have access to use the API"
     ),
     db: Session = Depends(get_db),
 ):
-    resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
+    resp = UserCrud.check_secret_key(api_access_code, secret_key_access)
     if resp == "Fail":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized"
@@ -160,10 +150,62 @@ def get_comments_for_a_picture(
     ),
     db: Session = Depends(get_db),
 ):
-    resp = UserCrud.check_secret_key(db, api_access_code, SECRET_KEY_ACCESS)
+    resp = UserCrud.check_secret_key(api_access_code, secret_key_access)
     if resp == "Fail":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized"
         )
     comments = UserCrud.get_all_picture_comments(db, graduate_id)
     return comments
+
+
+@router.get(
+    "/filter-graduates-by-year/{year}",
+    status_code=status.HTTP_200_OK,
+    response_model=PaginatedGraduatesWithComments,
+    summary="This route is used to get all the pictures of graduates in a specific year.",
+    description="It returns a List of Json data.",
+)
+def get_pictures_of_graduates_by_year(
+    year: str,
+    page: Optional[int] = 1,
+    api_access_code: str = Query(
+        None, description="Special Key needed in order to have access to use the API"
+    ),
+    db: Session = Depends(get_db),
+):
+    resp = UserCrud.check_secret_key(api_access_code, secret_key_access)
+    if resp == "Fail":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized"
+        )
+    pictures = UserCrud.get_graduates_with_comments_by_year_paginated(
+        api_access_code, year, db, items_per_page=10, page=page
+    )
+    return pictures
+
+
+@router.get(
+    "/search-graduates-by-name/{name}",
+    status_code=status.HTTP_200_OK,
+    response_model=PaginatedGraduatesWithComments,
+    summary="This route is used to get all the pictures of graduates by name.",
+    description="It returns a List of Json data.",
+)
+def search_for_graduate_pictures_by_name(
+    name: str,
+    page: Optional[int] = 1,
+    api_access_code: str = Query(
+        None, description="Special Key needed in order to have access to use the API"
+    ),
+    db: Session = Depends(get_db),
+):
+    resp = UserCrud.check_secret_key(api_access_code, secret_key_access)
+    if resp == "Fail":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized"
+        )
+    pictures = UserCrud.get_graduates_with_comments_by_name_paginated(
+        api_access_code, name, db, items_per_page=10, page=page
+    )
+    return pictures
