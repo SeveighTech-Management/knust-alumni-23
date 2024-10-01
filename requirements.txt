@@ -54,6 +54,6 @@ update==0.0.1
 urllib3==1.26.18
 uvicorn==0.29.0
 validate-email-address==1
-Werkzeug==2.3.8
+Werkzeug==3.0.3
 wheel==0.43.0
 zipp==3.10.0
